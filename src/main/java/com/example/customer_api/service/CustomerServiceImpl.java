@@ -2,13 +2,18 @@ package com.example.customer_api.service;
 
 import com.example.customer_api.dto.CustomerRequestDTO;
 import com.example.customer_api.dto.CustomerResponseDTO;
+import com.example.customer_api.dto.CustomerUpdateDTO;
 import com.example.customer_api.entity.Customer;
 import com.example.customer_api.exception.DuplicateResourceException;
 import com.example.customer_api.exception.ResourceNotFoundException;
 import com.example.customer_api.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -101,7 +106,15 @@ public class CustomerServiceImpl implements CustomerService {
     
     @Override
     public List<CustomerResponseDTO> getCustomersByStatus(String status) {
-        return customerRepository.findByStatus(status)
+        Customer.CustomerStatus enumStatus;
+
+        try {
+            enumStatus = Customer.CustomerStatus.valueOf(status.toUpperCase());
+        } catch (IllegalArgumentException ex) {
+            throw new ResourceNotFoundException("Invalid status: " + status);
+        }
+
+        return customerRepository.findByStatus(enumStatus)
                 .stream()
                 .map(this::convertToResponseDTO)
                 .collect(Collectors.toList());
@@ -130,5 +143,77 @@ public class CustomerServiceImpl implements CustomerService {
         customer.setPhone(dto.getPhone());
         customer.setAddress(dto.getAddress());
         return customer;
+    }
+
+    @Override
+    public List<CustomerResponseDTO> advancedSearch(String name, String email, String status) {
+        Customer.CustomerStatus enumStatus = null;
+        // Convert status string → enum
+        if (status != null && !status.isBlank()) {
+            try {
+                enumStatus = Customer.CustomerStatus.valueOf(status.toUpperCase());
+            } catch (IllegalArgumentException ex) {
+                throw new ResourceNotFoundException("Invalid status: " + status);
+            }
+        }
+        List<Customer> customers = customerRepository.advancedSearch(
+                (name == null || name.isBlank()) ? null : name,
+                (email == null || email.isBlank()) ? null : email,
+                enumStatus
+        );
+        return customers.stream()
+                .map(this::convertToResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<CustomerResponseDTO> getAllCustomers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+
+        // Convert each Customer → CustomerResponseDTO
+        return customerPage.map(this::convertToResponseDTO);
+    }
+
+    @Override
+    public Page<CustomerResponseDTO> getAllCustomers(int page, int size, String sortBy, String sortDir) {
+
+        Sort sort = sortDir.equalsIgnoreCase("asc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Customer> customerPage = customerRepository.findAll(pageable);
+
+        return customerPage.map(this::convertToResponseDTO);
+    }
+
+    @Override
+    public CustomerResponseDTO partialUpdateCustomer(Long id, CustomerUpdateDTO updateDTO) {
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with id: " + id));
+        // Only update fields that are not null
+        if (updateDTO.getFullName() != null) {
+            customer.setFullName(updateDTO.getFullName());
+        }
+        if (updateDTO.getEmail() != null) {
+            // Check duplicate email
+            if (customerRepository.existsByEmail(updateDTO.getEmail()) &&
+                !customer.getEmail().equals(updateDTO.getEmail())) {
+                throw new DuplicateResourceException("Email already exists: " + updateDTO.getEmail());
+            }
+            customer.setEmail(updateDTO.getEmail());
+        }
+        if (updateDTO.getPhone() != null) {
+            customer.setPhone(updateDTO.getPhone());
+        }
+        if (updateDTO.getAddress() != null) {
+            customer.setAddress(updateDTO.getAddress());
+        }
+        // Save updated customer
+        Customer saved = customerRepository.save(customer);
+        return convertToResponseDTO(saved);
     }
 }

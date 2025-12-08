@@ -2,6 +2,10 @@ package com.example.customer_api.service;
 
 import com.example.customer_api.dto.CustomerRequestDTO;
 import com.example.customer_api.dto.CustomerResponseDTO;
+import com.example.customer_api.dto.CustomerUpdateDTO;
+
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 
@@ -20,4 +24,13 @@ public interface CustomerService {
     List<CustomerResponseDTO> searchCustomers(String keyword);
     
     List<CustomerResponseDTO> getCustomersByStatus(String status);
+
+    List<CustomerResponseDTO> advancedSearch(String name, String email, String status);
+
+    Page<CustomerResponseDTO> getAllCustomers(int page, int size);
+
+    Page<CustomerResponseDTO> getAllCustomers(int page, int size, String sortBy, String sortDir);
+
+    CustomerResponseDTO partialUpdateCustomer(Long id, CustomerUpdateDTO updateDTO);
+
 }

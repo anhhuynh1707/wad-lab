@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,11 +22,23 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     
     boolean existsByEmail(String email);
     
-    List<Customer> findByStatus(String status);
+    List<Customer> findByStatus(Customer.CustomerStatus status);
     
     @Query("SELECT c FROM Customer c WHERE " +
            "LOWER(c.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
            "LOWER(c.email) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
            "LOWER(c.customerCode) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Customer> searchCustomers(@Param("keyword") String keyword);
+
+    @Query("SELECT c FROM Customer c " +
+       "WHERE (:name IS NULL OR LOWER(c.fullName) LIKE LOWER(CONCAT('%', :name, '%'))) " +
+       "AND (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%'))) " +
+       "AND (:status IS NULL OR c.status = :status)")
+    List<Customer> advancedSearch(
+            @Param("name") String name,
+            @Param("email") String email,
+            @Param("status") Customer.CustomerStatus status
+    );
+
+    Page<Customer> findAll(Pageable pageable);
 }
