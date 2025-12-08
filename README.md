@@ -11,15 +11,15 @@
 `http://localhost:8080/api/customers`
 
 ### Endpoints Implemented
-- ✅ GET /api/customers - Get all customers
-- ✅ GET /api/customers/{id} - Get by ID
-- ✅ POST /api/customers - Create customer
-- ✅ PUT /api/customers/{id} - Update customer
-- ✅ DELETE /api/customers/{id} - Delete customer
-- ✅ GET /api/customers/search?keyword={keyword} - Search
-- ✅ GET /api/customers/status/{status} - Filter by status
-- ✅ Pagination and sorting
-- ✅ PATCH for partial update
+- [x] GET /api/customers - Get all customers
+- [x] GET /api/customers/{id} - Get by ID
+- [x] POST /api/customers - Create customer
+- [x] PUT /api/customers/{id} - Update customer
+- [x] DELETE /api/customers/{id} - Delete customer
+- [x] GET /api/customers/search?keyword={keyword} - Search
+- [x] GET /api/customers/status/{status} - Filter by status
+- [x] Pagination and sorting
+- [x] PATCH for partial update
 - [ ] Bonus features
 
 ## How to Run
