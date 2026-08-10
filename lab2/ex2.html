@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2 - Ex2</title>
+    <style>
+        body {
+            background-color: #f4b978;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .page {
+            padding: 40px 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: white;
+            border: 1px solid #000;
+            display: flex; /* Flexbox layout */
+            flex-direction: column; /*Flexbox layout */
+            min-height: 95vh;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+        .header,
+        .footer {
+            background-color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .content {
+            display: flex; /* Flexbox layout */
+            flex: 1;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            flex-wrap: wrap; /* allows sidebars to stack on small screens */
+        }
+        .sidebar {
+            background-color: #fff;
+            padding: 20px;
+            border-right: 1px solid #ddd;
+            width: 150px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+        .sidebar-b {
+            border-left: 1px solid #ddd;
+            border-right: none;
+        }
+        .main {
+            flex: 1; /*Flexbox layout */
+            background-color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">Header</header>
+        <div class="content">
+            <aside class="sidebar sidebar-a">Sidebar A</aside>
+            <main class="main">Main content</main>
+            <aside class="sidebar sidebar-b">Sidebar B</aside>
+        </div>
+        <footer class="footer">Footer</footer>
+    </div>
+</body>
+</html>
