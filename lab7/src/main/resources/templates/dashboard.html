@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI';
+            background: #eef1ff;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4ad8;
+            margin-bottom: 30px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .low-stock {
+            border-left: 4px solid #ff5252;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h1>📊 Product Statistics Dashboard</h1>
+
+    <div class="card-grid">
+
+        <div class="card">
+            <h2>Total Inventory Value</h2>
+            <p th:text="'$' + ${#numbers.formatDecimal(totalValue, 1, 2)}"></p>
+        </div>
+
+        <div class="card">
+            <h2>Average Product Price</h2>
+            <p th:text="'$' + ${#numbers.formatDecimal(avgPrice, 1, 2)}"></p>
+        </div>
+
+        <div class="card">
+            <h2>Products by Category</h2>
+            <ul>
+                <li th:each="entry : ${categoryStats}">
+                    <span th:text="${entry.key}"></span>:
+                    <strong th:text="${entry.value}"></strong>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+    <div class="card low-stock">
+        <h2>⚠ Low Stock (less than 10)</h2>
+
+        <table th:if="${!lowStock.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Category</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="p : ${lowStock}">
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.quantity}"></td>
+                    <td th:text="${p.category}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p th:if="${lowStock.isEmpty()}">No low stock warnings!</p>
+    </div>
+
+    <div class="card">
+        <h2>🆕 Recently Added Products</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="p : ${recentProducts}">
+                <td th:text="${p.id}"></td>
+                <td th:text="${p.name}"></td>
+                <td th:text="${p.quantity}"></td>
+                <td th:text="'$' + ${#numbers.formatDecimal(p.price, 1, 2)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
