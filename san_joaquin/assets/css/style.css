@@ -1,0 +1,256 @@
+html {
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  width: 900px;
+  height: 1000px;
+  margin: 0 auto;
+  border: 3px solid rgb(145, 4, 4);
+  background-color: #fffded;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 20px;
+}
+
+/* Title*/
+
+header {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  border: 2px solid rgb(145, 4, 4);
+  background-image: linear-gradient(30deg, #f6bb73 0%, #f6bb73 30%, white 50%, #f6bb73 80%, #f6bb73 100%);
+}
+
+.logo {
+  width: 100px;
+  float: left;
+  padding: 0 3.75%;
+}
+
+.title {
+  color: rgb(145, 4, 4);
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.title_2 {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+  color: black;
+}
+
+.shadow {
+  text-shadow: 2px 2px 2px #800000;
+}
+
+/* Navigation bar */
+
+nav {
+  height: 50px;
+  background-color: rgb(144, 6, 6);
+  padding: 5px;
+}
+
+nav ul {
+  list-style-type: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+nav ul li {
+  color: white;
+  font-weight: bold;
+  font-size: 24px;
+}
+
+
+nav li:hover {
+  cursor: pointer;
+}
+
+nav ul li:hover {
+  cursor: pointer;
+  color: #f6bb73;
+}
+
+.about_us {
+  position: relative;
+  display: inline-block;
+}
+
+.about_us .about_us_dropdown {
+  display: none;
+  position: absolute;
+  background-color: rgb(144, 6, 6);
+  top: 100%;
+  width: max-content;
+  text-align: center;
+  min-width: 155%;
+  line-height: 40px;
+}
+
+.about_us .about_us_dropdown li {
+  font-size: 16px;
+}
+
+.about_us:hover .about_us_dropdown {
+  display: block;
+}
+
+.home {
+  color: #f6bb73;
+}
+
+/* Side bar */
+
+aside {
+  padding: 0;
+  margin: 0;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+aside a {
+  padding: 0;
+  margin: 0;
+  display: block;
+  font-size: 20px;
+  margin-bottom: 7px;
+  font-weight: bold;
+}
+
+aside img {
+  height: 120px;
+}
+
+aside a:hover {
+  color: rgb(3, 137, 137);
+}
+
+aside p {
+  padding: 0;
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 5px;
+}
+
+h2 {
+  padding: 0;
+  margin: 0;
+  color: rgb(139, 2, 2);
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/*Body */
+
+.main_content {
+  width: 65%;
+}
+
+.header_paragraph {
+  font-size: 19px;
+  margin-top: 5px;
+  margin-bottom: 0;
+  margin-right: 20px;
+}
+
+.header_paragraph2 {
+  font-style: italic;
+  margin-top: 17px;
+  margin-left: 30px;
+  font-size: 16px;
+  margin-right: 20px;
+}
+
+.content_title {
+  padding: 0;
+  margin: 0;
+  font-size: 25px;
+  border-bottom: rgb(139, 2, 2) solid 3px;
+  padding-bottom: 4px;
+}
+
+.a {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  margin-top: 5px;
+  font-size: 19px;
+  gap: 20px
+}
+
+.b {
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  font-size: 19px;
+}
+
+.dinosaur_picture {
+  float: right;
+  margin-left: 10px;
+  margin-right: 15px;
+  margin-top: 10px;
+}
+
+.main_paragraph {
+  font-size: 17px;
+  margin-top: 10px;
+}
+
+.content a:hover {
+  color: rgb(3, 137, 137);
+}
+
+.content {
+  border-bottom: rgb(139, 2, 2) solid 3px;
+  padding-bottom: 12px;
+}
+
+.ticket {
+  margin: 5px 0;
+  list-style-type: circle;
+  font-size: 18px;
+}
+
+/*Footer*/
+footer {
+  border-top: 3px solid #800000;
+  clear: both;
+  margin: 0;
+  padding: 20px 0;
+  background-color: rgb(144, 6, 6);
+  bottom: 0;
+}
+
+footer p {
+  text-align: center;
+  color: white;
+  padding: 0;
+  margin: 0;
+}
+
+footer a {
+  color: white;
+  font-weight: bold;
+}
